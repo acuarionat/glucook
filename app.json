@@ -1,5 +1,8 @@
 {
   "expo": {
+    "assetBundlePatterns": [
+      "assets/*"
+    ],
     "name": "glucook",
     "slug": "glucook",
     "version": "1.0.0",
@@ -19,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.natalia_lozano.glucook"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "426e52b8-b0a8-40c1-a11e-d55cda613bf2"
+      }
     }
   }
 }
