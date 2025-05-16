@@ -7,11 +7,12 @@ import {
   Alert
 } from 'react-native';
 import { useState } from 'react';
-import appFirebase from '../firebaseConfig';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import appFirebase from '../firebaseConfig';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
-const auth = getAuth(appFirebase);
 const firestore = getFirestore(appFirebase);
 
 const SignUpScreen = (props) => {
@@ -19,6 +20,9 @@ const SignUpScreen = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onRegister = () => {
     if (password !== confirmPassword) {
@@ -34,8 +38,8 @@ const SignUpScreen = (props) => {
           id: user.uid,
           nombre: nombre,
           correo: user.email,
-          password: password, 
-          avatar: '', 
+          password: password,
+          avatar: '',
         });
 
         Alert.alert('Cuenta creada', 'Usuario registrado exitosamente');
@@ -71,21 +75,46 @@ const SignUpScreen = (props) => {
           style={styles.inputBox}
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
-        <TextInput
-          placeholder="Contraseña"
-          style={styles.inputBox}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-        />
-        <TextInput
-          placeholder="Confirmar Contraseña"
-          style={styles.inputBox}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={true}
-        />
+        
+        <View style={styles.inputPasswordContainer}>
+          <TextInput
+            placeholder="Contraseña"
+            style={[ { flex: 1 }]}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Icon 
+              name={showPassword ? "eye-off" : "eye"} 
+              size={24} 
+              color="#1F948F" 
+              style={{ paddingHorizontal: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.inputPasswordContainer}>
+          <TextInput
+            placeholder="Confirmar Contraseña"
+            style={[{ flex: 1 }]}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!showConfirmPassword}
+          />
+          <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+            <Icon 
+              name={showConfirmPassword ? "eye-off" : "eye"} 
+              size={24} 
+              color="#1F948F" 
+              style={{ paddingHorizontal: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity onPress={onRegister} style={styles.register}>
           <Text style={styles.registerTitle}>Registrarse</Text>
         </TouchableOpacity>
@@ -136,6 +165,17 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 1,
     borderColor: '#1F948F',
+    backgroundColor: '#cccccc30',
+  },
+  inputPasswordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
+    marginVertical: 10,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#1F948F',
+    padding: 12,
     backgroundColor: '#cccccc30',
   },
   register: {

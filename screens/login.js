@@ -1,15 +1,15 @@
-// Login.js
 import React, { useState } from 'react';
 import { Text, StyleSheet, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
-import appFirebase from '../firebaseConfig';
 import { AntDesign } from '@expo/vector-icons';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
-const auth = getAuth(appFirebase);
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig'; 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
 export default function Login({ navigation, promptAsync }) {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [showPassword, setShowPassword] = useState(false); // controla mostrar/ocultar password
 
   const logueo = async () => {
     try {
@@ -32,23 +32,35 @@ export default function Login({ navigation, promptAsync }) {
         <Image source={require('../assets/logo.jpg')} style={styles.profile} />
       </View>
       <View style={styles.tarjeta}>
-        <View style={styles.cajaTexto}>
+        <View style={styles.cajaTextoCorreo}>
           <TextInput
             placeholder='correo@gmail.com'
             style={{ paddingHorizontal: 15 }}
             onChangeText={text => setEmail(text)}
             value={email}
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
         </View>
-        <View style={styles.cajaTexto}>
+
+      
+        <View style={[styles.cajaTexto, styles.inputPasswordContainer]}>
           <TextInput
             placeholder='Password'
-            style={{ paddingHorizontal: 15 }}
-            secureTextEntry={true}
+            style={{ flex: 1, paddingHorizontal: 15 }}
+            secureTextEntry={!showPassword}
             onChangeText={text => setPassword(text)}
             value={password}
           />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{ paddingHorizontal: 10 }}>
+            <Icon 
+              name={showPassword ? "eye-off" : "eye"} 
+              size={24} 
+              color="#1F948F" 
+            />
+          </TouchableOpacity>
         </View>
+
         <View style={styles.padreBoton}>
           <TouchableOpacity style={styles.cajaBoton} onPress={logueo}>
             <Text style={styles.textoBoton}>Ingresar</Text>
@@ -56,9 +68,9 @@ export default function Login({ navigation, promptAsync }) {
         </View>
 
         <TouchableOpacity style={styles.googleBoton} onPress={promptAsync}>
-      <AntDesign name="google" size={24} color="#1F948F" style={{ marginRight: 10 }} />
-      <Text style={styles.textoGoogleBoton}>Iniciar sesión con Google</Text>
-    </TouchableOpacity>
+          <AntDesign name="google" size={24} color="#1F948F" style={{ marginRight: 10 }} />
+          <Text style={styles.textoGoogleBoton}>Iniciar sesión con Google</Text>
+        </TouchableOpacity>
 
         <View style={styles.registroContainer}>
           <Text>¿No tienes una cuenta? </Text>
@@ -103,6 +115,18 @@ const styles = StyleSheet.create({
   },
   cajaTexto: {
     paddingVertical: 10,
+    backgroundColor: '#cccccc30',
+    borderRadius: 30,
+    marginVertical: 10,
+    borderColor: '#1F948F',
+    borderWidth: 1,
+  },
+  inputPasswordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cajaTextoCorreo: {
+    paddingVertical: 14,
     backgroundColor: '#cccccc30',
     borderRadius: 30,
     marginVertical: 10,

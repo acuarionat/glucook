@@ -64,10 +64,10 @@ export default function HomeScreen() {
           style={styles.profileButton}
           onPress={() => navigation.navigate('perfil')}
         >
-          <Image
-            source={{ uri: profileImage }}
-            style={styles.avatarImage}
-          />
+         <Image
+          source={typeof profileImage === 'string' ? { uri: profileImage } : profileImage}
+          style={styles.avatarImage}
+        />
         </TouchableOpacity>
       </View>
 
@@ -83,8 +83,8 @@ export default function HomeScreen() {
         />
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Categorías rápidas */}
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        {/* Quick Categories */}
         <View style={styles.categoriesContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {quickCategories.map(category => (
@@ -98,7 +98,7 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* Sección de recetas */}
+        {/* New Recipes Section */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Nuevas recetas</Text>
@@ -106,21 +106,64 @@ export default function HomeScreen() {
               <Text style={styles.seeAllText}>Ver todas</Text>
             </TouchableOpacity>
           </View>
-
+          
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {featuredRecipes.map(recipe => (
               <TouchableOpacity key={recipe.id} style={styles.recipeCard}>
                 <View style={styles.recipeImagePlaceholder}>
                   <Feather name={recipe.icon} size={50} color="#82AA8A" />
                 </View>
+                <View style={styles.recipeInfo}>
+                  <View style={styles.timeContainer}>
+                    <Feather name="clock" size={16} color="#FBFFFC" />
+                    <Text style={styles.timeText}>{recipe.time}'</Text>
+                  </View>
+                  <View style={styles.likesContainer}>
+                    <Feather name="heart" size={16} color="#FBFFFC" />
+                    <Text style={styles.likesText}>{recipe.likes}</Text>
+                  </View>
+                </View>
                 <Text style={styles.recipeName}>{recipe.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
-      </ScrollView>
 
-  {/* Health Tips Section */}
+        {/* Video Recipes Section */}
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Videorecetas</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>Ver todas</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {featuredRecipes.map(recipe => (
+              <TouchableOpacity key={recipe.id} style={styles.recipeCard}>
+                <View style={styles.recipeImagePlaceholder}>
+                  <Feather name={recipe.icon} size={50} color="#82AA8A" />
+                </View>
+                <View style={styles.videoIcon}>
+                  <Feather name="play" size={20} color="#FBFFFC" />
+                </View>
+                <View style={styles.recipeInfo}>
+                  <View style={styles.timeContainer}>
+                    <Feather name="clock" size={16} color="#FBFFFC" />
+                    <Text style={styles.timeText}>{recipe.time}'</Text>
+                  </View>
+                  <View style={styles.likesContainer}>
+                    <Feather name="heart" size={16} color="#FBFFFC" />
+                    <Text style={styles.likesText}>{recipe.likes}</Text>
+                  </View>
+                </View>
+                <Text style={styles.recipeName}>{recipe.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+        
+        {/* Health Tips Section */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Tips saludables</Text>
@@ -153,6 +196,8 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+      </ScrollView>
+
 
       {/* Navegación inferior */}
       <View style={styles.bottomNav}>
