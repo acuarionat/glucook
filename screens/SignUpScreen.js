@@ -50,6 +50,10 @@ const SignUpScreen = (props) => {
           Alert.alert('Error', 'El correo electrónico ya está en uso');
         } else if (error.code === 'auth/invalid-email') {
           Alert.alert('Error', 'Correo electrónico inválido');
+        } else if (error.code === 'auth/missing-password') {
+          Alert.alert('Error', 'Contraseña faltante');
+        } else if (error.code === 'auth/weak-password') {
+          Alert.alert('Error', 'La contraseña debe tener más de 6 carateres');
         } else {
           Alert.alert('Error', `Error de registro: ${error.message}`);
         }

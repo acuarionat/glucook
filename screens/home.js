@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,6 @@ import { useNavigation } from '@react-navigation/native';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import defaultAvatar from '../assets/profile.png';
-
 
 export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');

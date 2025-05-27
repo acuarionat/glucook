@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Text, StyleSheet, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -9,7 +9,7 @@ export default function Login({ navigation, promptAsync }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [showPassword, setShowPassword] = useState(false); // controla mostrar/ocultar password
+  const [showPassword, setShowPassword] = useState(false); 
 
   const logueo = async () => {
     try {
@@ -43,7 +43,6 @@ export default function Login({ navigation, promptAsync }) {
           />
         </View>
 
-      
         <View style={[styles.cajaTexto, styles.inputPasswordContainer]}>
           <TextInput
             placeholder='Password'

@@ -6,7 +6,6 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 
-
 const API_IMGBB = '3f5e45d7b4bdbe4c068c693389b5dc39'; 
 const Perfil = () => {
   const navigation = useNavigation();
@@ -18,8 +17,6 @@ const Perfil = () => {
   const [avatar, setAvatar] = useState('');
   const [subiendo, setSubiendo] = useState(false);
 
-
-  
   useEffect(() => {
     const cargarDatos = async () => {
       try {
@@ -68,7 +65,7 @@ const Perfil = () => {
         body: formData
       });
 
-      const data = await response.json();
+    const data = await response.json();
       if (data.success) {
         const urlImagen = data.data.url;
         setAvatar(urlImagen);
