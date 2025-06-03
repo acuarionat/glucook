@@ -9,18 +9,15 @@ import {
 import { useState } from 'react';
 import { auth } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import appFirebase from '../firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
-
-const firestore = getFirestore(appFirebase);
+import { db } from '../firebaseConfig';
 
 const SignUpScreen = (props) => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -34,13 +31,17 @@ const SignUpScreen = (props) => {
       .then(async (userCredential) => {
         const user = userCredential.user;
 
-        await setDoc(doc(firestore, 'usuarios', user.uid), {
-          id: user.uid,
-          nombre: nombre,
-          correo: user.email,
-          password: password,
-          avatar: '',
-        });
+         await setDoc(doc(db, 'usuarios', user.uid), {
+            id: user.uid,
+            nombre: nombre,
+            correo: user.email,
+            password: password,
+            avatar: '',
+            fechaRegistro: new Date().toLocaleString('es-BO', { timeZone: 'America/La_Paz' }), 
+            estado: 'activo',
+            rol: 'usuario',
+            ultimoAcceso: '',                           
+          });
 
         Alert.alert('Cuenta creada', 'Usuario registrado exitosamente');
         props.navigation.navigate('Login');
